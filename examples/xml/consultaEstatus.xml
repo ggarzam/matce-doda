@@ -1,0 +1,24 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mat="http://impl.service.qrws.ce.siat.sat.gob.mx/siatbus/matce" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mat:consultaEstatus>
+         <dodas>
+            <credenciales>
+               <!--Optional:-->
+               <ciec>
+                  <!--Optional:-->
+                  <Usuario>ZUMI7607229DA</Usuario>
+                  <!--Optional:-->
+                  <Contrasena>12345678a</Contrasena>
+               </ciec>
+            </credenciales>
+            <!--1 or more repetitions:-->
+            <doda>
+               <datosGenerales>
+                  <ticket>07032017132522046</ticket>
+               </datosGenerales>
+            </doda>
+         </dodas>
+      </mat:consultaEstatus>
+   </soapenv:Body>
+</soapenv:Envelope>

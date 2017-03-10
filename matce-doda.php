@@ -7,7 +7,7 @@
  * @version 1.0.0
  */
 
-$matce_scrdir = dirname(__FILE__) . '/scr/';
+$matce_scrdir = dirname(__FILE__) . '/src/';
 
 require($matce_scrdir . 'libs/XMLSecurityKey.php');
 require($matce_scrdir . 'libs/XMLSecurityDSig.php');
