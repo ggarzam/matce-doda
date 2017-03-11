@@ -986,9 +986,12 @@ class XMLSecurityDSig
         // Add all certs if there are more than one
         $certs = self::staticGet509XCerts($cert, $isPEMFormat);
 
+        // Attach X509 data node
+        $x509DataNode = $baseDoc->createElementNS(self::XMLDSIGNS, $dsig_pfx.'X509Data');
+        $keyInfo->appendChild($x509DataNode);
+
         $issuerSerial = false;
         $subjectName = false;
-        $rsaKeyValue = false;
         if (is_array($options)) {
             if (! empty($options['issuerSerial'])) {
                 $issuerSerial = true;
@@ -996,20 +999,8 @@ class XMLSecurityDSig
             if (! empty($options['subjectName'])) {
                 $subjectName = true;
             }
-            if (! empty($options['rsaKeyValue'])) {
-                $rsaKeyValue = true;
-            }
         }
-        
-        if ($rsaKeyValue) {
-            // Attach RSAKeyValue node
-            $x509DataNode = $baseDoc->createElementNS(self::XMLDSIGNS, $dsig_pfx.'RSAKeyValue');
-        } else {
-            // Attach X509 data node
-            $x509DataNode = $baseDoc->createElementNS(self::XMLDSIGNS, $dsig_pfx.'X509Data');
-        }
-        $keyInfo->appendChild($x509DataNode);
-        
+
         // Attach all certificate nodes and any additional data
         foreach ($certs as $X509Cert) {
             if ($issuerSerial || $subjectName) {
@@ -1055,14 +1046,8 @@ class XMLSecurityDSig
                 }
 
             }
-            if ($rsaKeyValue) {
-                $pub = openssl_pkey_get_public($X509Cert);
-                $details = openssl_pkey_get_details($pub);
-                
-            } else {
-                $x509CertNode = $baseDoc->createElementNS(self::XMLDSIGNS, $dsig_pfx.'X509Certificate', $X509Cert);
-                $x509DataNode->appendChild($x509CertNode);   
-            }
+            $x509CertNode = $baseDoc->createElementNS(self::XMLDSIGNS, $dsig_pfx.'X509Certificate', $X509Cert);
+            $x509DataNode->appendChild($x509CertNode);
         }
     }
 

@@ -1,0 +1,77 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mat="http://impl.service.qrws.ce.siat.sat.gob.mx/siatbus/matce" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mat:altaDoda>
+         <dodas>
+   <credenciales>
+      <!--Optional:-->
+      <ciec>
+         <!--Optional:-->
+         <Usuario>ZUMI7607229DA</Usuario>
+         <!--Optional:-->
+         <Contrasena>12345678a</Contrasena>
+      </ciec>
+   </credenciales>
+   <!--1 or more repetitions:-->
+   <doda>
+      <!--Optional:-->
+      <datosGenerales>
+         <!--Optional:-->
+         <aduana>800</aduana>
+         <!--Optional:-->
+         <seccion>800</seccion>
+         <!--Optional:-->
+         <caat>0669</caat>
+         <!--Optional:-->
+         <contenedores>
+            <!--Zero or more repetitions:-->
+            <contenedor>
+               <!--Zero or more repetitions:-->
+               <candados>
+                  <!--Optional:-->
+                  <valorCandado>valCandado01</valorCandado>
+               </candados>
+               <!--Optional:-->
+               <valorContenedor>valContenedor01</valorContenedor>
+            </contenedor>
+         </contenedores>
+         <!--Optional:-->
+         <idTransporte>0669</idTransporte>
+         <!--Zero or more repetitions:-->
+         <tipoOperacion>1</tipoOperacion>
+      </datosGenerales>
+      <pedimentos>
+         <pedimento>
+            <!--Optional:-->
+            <patenteAutorizacion>3004</patenteAutorizacion>
+            <!--Optional:-->
+            <documento>6111348</documento>
+            <!--Optional:-->
+            <numeroRemesa>0</numeroRemesa>
+            <!--Optional:-->
+            <dtaNiu>12</dtaNiu>
+            <!--Optional:-->
+            <importeDifDolares>0</importeDifDolares>
+            <!--Optional:-->
+            <importeEfectivoDolares>4305</importeEfectivoDolares>
+            <!--Optional:-->
+            <umc>1</umc>
+            <!--Optional:-->
+            <articulo7>7</articulo7>
+            <!--Optional:-->
+            <cove>COVE1234</cove>
+         </pedimento>
+		</pedimentos>
+      <sellado>
+         <!--Optional:-->
+         <cadenaOriginalAA>||800|3004|1|6111428-COVE13004ZEH5|298312|5451212||2017-02-27 15:44:22||</cadenaOriginalAA>
+         <!--Optional:-->
+         <firmado>fwz05hoi5EHPBY7qTHoHNaPp9lctsbIo3riwiKn1PWO/aur5FVFGfgd6IIrA7rp6mD5eWg/hTO/tCKOuNvjas/jileaYLMTiZqFJZGB6NRDbTkiObtBwFFeG1IBl7tKJ77EeZTfHFhJC40kJZHlW/VmaH9pQQJdFmEHXY9uVf28=</firmado>
+         <!--Optional:-->
+         <serie>20001000000200003162</serie>
+      </sellado>
+   </doda>
+   </dodas>
+      </mat:altaDoda>
+   </soapenv:Body>
+</soapenv:Envelope>

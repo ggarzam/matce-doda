@@ -30,7 +30,7 @@ $objSig->sign($objKey,$doc->documentElement);
 
 // Agregamso la llave publica asociada
 // @todo Crear una nueva funcion para agregar la llave publice en forma de XML
-$objSig->add509Cert(file_get_contents(dirname(__FILE__) . '/keys/public.pem'),true,false,array('rsaKeyValue' => true));
+$objSig->add509Cert(file_get_contents(dirname(__FILE__) . '/keys/public.pem'));
 
 /// Generamos el XML para poder agregar al nodo KeyInfo
 
@@ -40,5 +40,5 @@ $objSig->appendSignature($doc->getElementsByTagName('dodas')->item(0));
 //$doc->save(dirname(__FILE__) . '/doda-consulta-sign.xml');
 
 
-//header("Content-type: text/xml");
+header("Content-type: text/xml");
 print_r($doc->saveXML());
