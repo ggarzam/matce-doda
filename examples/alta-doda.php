@@ -7,7 +7,7 @@ use HEGAR\MatceDoda\MATCEDodaSignature;
 $doda = new MATCEDodaSignature();
 
 try{
-	$doda->setXml(dirname(__FILE__) . '/xml/consultaEstatus.xml',true);
+	$doda->setXml(dirname(__FILE__) . '/xml/altaDoda.xml',true);
 	$doda->setPrivateKey(dirname(__FILE__) . '/keys/private.key.pem');
 	$doda->setPublicKey(dirname(__FILE__) . '/keys/public.pem');
 	$doda->firma();
