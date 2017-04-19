@@ -1,8 +1,7 @@
-<?php 
+<?php
+use HEGAR\MatceDoda\MATCEDodaSignature;
 ini_set('display_errors', 'on');
 require(dirname(__FILE__) . '/../matce-doda.php');
-
-use HEGAR\MatceDoda\MATCEDodaSignature;
 
 $doda = new MATCEDodaSignature();
 
@@ -15,5 +14,5 @@ try{
 } catch (Exception $e){
 	echo 'Error: ' . $e->getMessage();
 }
-header('Content-type: text/xml');
+//header('Content-type: text/xml');
 echo $signed->saveXML();

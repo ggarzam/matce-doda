@@ -1,10 +1,9 @@
-<?php 
+<?php
 
 /**
- *	
+ *
  */
 namespace HEGAR\MatceDoda;
-
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 use DOMDocument;
@@ -39,12 +38,13 @@ class MATCEDodaSignature
 	 *	@var DOMElement Contiene el elemento de la llave privada en formato RSA
 	 */
 	private $publicRSA = null;
+	protected $xmlDSigAdapter;
 
 	public function __construct()
 	{
 		$this->doc = new DOMDocument();
-                $this->doc->preserveWhiteSpace = false;
-                $this->doc->formatOutput = false;
+        $this->doc->preserveWhiteSpace = false;
+        $this->doc->formatOutput = false;
 	}
 
 	/**
@@ -60,7 +60,6 @@ class MATCEDodaSignature
 		if($isFile){
 			if(!$this->doc->load($xml)){
 				throw new \Exception("Error al cargar el documento proporcionado");
-				
 			}
 		} else {
 			if (!$this->doc->loadXML($xml)){
@@ -130,10 +129,10 @@ class MATCEDodaSignature
 
 	/**
 	 * Establecemos las rutas a la llave privada
-	 * 
+	 *
 	 * @param 	string 		$key 			Llave privada o ruta para cargar la llave privada
 	 * @param 	bool 		$isFile 		Indica si el primer parametro es la ruta para la llave
-	 * @param 	string 		$passphrase 	Indica la contrasena de la llave pridad 
+     * @param 	string 		$passphrase 	Indica la contrasena de la llave pridada
 	 * @throws 	Exception 					Si no se puede cargar correctamente la llave privada
 	 * @return 	bool 						True si se cargo correctamente la llave
 	 */
@@ -158,23 +157,26 @@ class MATCEDodaSignature
 		if($isFile){
 			$key = file_get_contents($key);
 			if(!$key){
-				throw new Exception("Error al tratar de cargar el contenido de la llave privada: " . $key, 1);
+				throw new Exception("Error al tratar de cargar el contenido de la llave publica: " . $key, 1);
 			}
 		}
 		$res = openssl_pkey_get_public($key);
 		$details = openssl_pkey_get_details($res);
 
 		$d = new \DOMDocument();
+		$keyInfo = $d->createElement('KeyInfo');
+		$keyValue = $d->createElement('KeyValue');
 		$rsaKey = $d->createElement('RSAKeyValue');
 		$modulus = $d->createElement('Modulus',base64_encode($details['rsa']['n']));
 		$exponent = $d->createElement('Exponent',base64_encode($details['rsa']['e']));
 
 		$rsaKey->appendChild($modulus);
 		$rsaKey->appendChild($exponent);
+		$keyValue->appendChild($rsaKey);
+		$keyInfo->appendChild($keyValue);
+		$d->appendChild($keyInfo);
 
-		$d->appendChild($rsaKey);
-
-		$this->publicRSA = $rsaKey;
+		$this->publicRSA = $keyInfo;
 	}
 
 	/**
@@ -193,7 +195,7 @@ class MATCEDodaSignature
 			throw new \Exception('La llave que se encuentra cargada no es correcta', 1);
 		}
 
-		return $this->publicRSA;	
+		return $this->publicRSA;
 	}
 
 	/**
@@ -215,16 +217,21 @@ class MATCEDodaSignature
 			throw new \Exception('No se ha cargado la llave publica para poder hacer el firmado', 1);
 		}
 
-		$objSig = new XMLSecurityDSig('ds');
+		$objSig = new XMLSecurityDSig();
 		$objSig->setCanonicalMethod(XMLSecurityDSig::C14N_COMMENTS);
 		$transforms = array('http://www.w3.org/2000/09/xmldsig#enveloped-signature',
-			XMLSecurityDSig::C14N_COMMENTS,
-			array('http://www.w3.org/TR/1999/REC-xpath-19991116' => array('query' => './dodas'))
+			array('http://www.w3.org/TR/1999/REC-xpath-19991116' => array('query' => '/dodas'))
 		);
 		$objSig->addReference($this->doc,XMLSecurityDSig::SHA256,$transforms,array('force_uri' => true));
 
 		$objSig->sign($this->objKey);
-		$objSig->appendSignature($this->doc->getElementsByTagName('dodas')->item(0));
+
+    $objSig->appendSignature($this->doc->getElementsByTagName('dodas')->item(0));
+
+        // Agregamos el nodo KeyInfo a Signature
+        $nodeSig = $this->doc->getElementsByTagName('Signature')->item(0);
+				$keyInfo = $this->doc->importNode($this->publicRSA,true);
+				$nodeSig->appendChild($keyInfo);
 	}
 }
 ?>

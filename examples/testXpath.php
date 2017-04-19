@@ -1,17 +1,14 @@
 <?php
-ini_set('display_errors', 'on');
 $doc = new DOMDocument();
 
 $doc->load(dirname(__FILE__) . '/xml/altaDoda.xml');
 $doc->preserveWhiteSpace = false;
 $doc->formatOutput = false;
 
-$xpath = new DOMXPath($doc);
+$arXPath = array(
+    'query' => '(.//. | .//@* | .//namespace::*)[/dodas]',
+    'namespaces' => array('xd' => 'http://www.w3.org/2000/09/xmldsig#')
+);
+$data = $doc->C14N(false, true,$arXPath,null);
 
-$query = array();
-$query['query'] = './dodas';
-
-
-$res = $doc->C14N(false, true, $query);
-
-var_dump($res);
+echo $data;

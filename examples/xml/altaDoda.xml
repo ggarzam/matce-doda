@@ -1,4 +1,4 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mat="http://impl.service.qrws.ce.siat.sat.gob.mx/siatbus/matce" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mat="http://impl.service.qrws.ce.siat.sat.gob.mx/siatbus/matce">
    <soapenv:Header/>
    <soapenv:Body>
       <mat:altaDoda>
@@ -71,7 +71,7 @@
          <serie>20001000000200003162</serie>
       </sellado>
    </doda>
-   </dodas>
+ </dodas>
       </mat:altaDoda>
    </soapenv:Body>
 </soapenv:Envelope>
